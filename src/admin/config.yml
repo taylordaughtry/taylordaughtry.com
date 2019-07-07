@@ -1,6 +1,6 @@
 backend:
-  name: git-gateway
-  branch: master
+  name: github
+  repo: taylordaughtry/taylordaughtry.com
 publish_mode: editorial_workflow
 site_url: "https://example.com"
 media_folder: "src/images"
