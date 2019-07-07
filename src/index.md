@@ -1,6 +1,7 @@
 ---
 layout: home
 title: Who are you?
+metaTitle: Taylor Daughtry — Software Engineer
 postsHeading: Latest posts
 archiveButtonText: See all posts
 socialImage: ''
