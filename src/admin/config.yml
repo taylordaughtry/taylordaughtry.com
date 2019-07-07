@@ -2,7 +2,7 @@ backend:
   name: github
   repo: taylordaughtry/taylordaughtry.com
 publish_mode: editorial_workflow
-site_url: "https://example.com"
+site_url: "http://taylordaughtry.com"
 media_folder: "src/images"
 public_folder: "images"
 collections:
