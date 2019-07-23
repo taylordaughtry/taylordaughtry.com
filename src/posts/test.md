@@ -36,5 +36,78 @@ As you get closer to the end of the project, you begin finding a problem when yo
 Here's an example of a recent component I've seen in the wild:
 
 ```twig
-{% test value %}
+{# _components/hero.twig #}
+
+<div>
+    <span>{{ entry.title }}</span>
+    <p>{{ entry.textContent }}</p>
+
+    {% set cta = entry.cta.one %}
+
+    {% if cta %}
+        <a href="{{ cta.buttonUrl }}">
+            {{ cta.buttonText }}
+        </a>
+    {% endif %}
+</div>
+
+{# articles/index.twig #}
+
+{% include '_components/hero' with { entry: entry } %}
 ```
+
+You've probably seen components written like this before, too. And there's no immediate issue with this approach—it'll render perfectly on the page while it's being written, and works beautifully with the CMS.
+
+### an issue arises
+
+Let's say you've built the above component rather early in the project, and a few weeks/months later you need to use that Hero component for a new page that's just been approved.
+
+You create the new page in Craft and add content, and write the markup/CSS for the 'unique' stuff on the page—perhaps a custom map on this page, or a one-off interactive tool of some sort. The new page calls for a Hero, but no problem, right? Just use the existing Hero component and you're good to go!
+
+But wait, this new content you're adding doesn't have the `cta` or `textContent` fields. You want to use the `textSnippet` and `button` fields.
+
+Because your component *assumes* stuff about the data it's rendering, you can't use it. You'll have to update all the uses of the Hero component or make a new component to account for this new data structure.
+
+As a result, components usually bloat in both number and complexity towards the end of most projects.
+
+## The Solution
+
+I'd humbly submit that there's a slightly better approach to how your write components in Craft. Instead of relying on certain fields/data structures to be present in your content, write your components in the thinnest, bare fashion you can. Here's an example of the Hero component from earlier rewritten:
+
+```twig
+{# _components/hero.twig #}
+
+<div>
+    <span>{{ title }}</span>
+    <p>{{ text }}</p>
+
+    {% if buttonUrl %}
+        <a href="{{ buttonUrl }}">
+            {{ buttonText }}
+        </a>
+    {% endif %}
+</div>
+
+{# articles/index.twig #}
+
+{# Import all components under a single Macro #}
+{% import '_components/macros' as createComponent %}
+
+{# Render a single Hero component with the provided data #}
+{{ createComponent.hero({
+    title: block.heading,
+    text: block.textContent,
+    buttonText: block.cta.one.buttonText ?? null,
+    buttonUrl: block.cta.one.buttonUrl ?? null
+}) }}
+```
+
+It's a subtle difference, but an important one. See how the new version doesn't assume we have a `cta` field, `textContent` field, or&hellip; really anything at all. We're just rendering the actual data being passed, and that's it.
+
+Yes, there are more variables being passed. Of course, it still requires the same two files. Yep, it will make your 'Page Builder' field a bit more verbose to write.
+
+However, it makes your components *truly* reusable, wherever you need them. They're now *explcitly* frontend concepts, instead of attempting to bridge the gap between the CMS fields and the component's data.
+
+That's essentially the "secret" behind truly bulletproof, reusable components:
+
+**Write your components as thin as (reasonably) possible, assuming nothing about the data structures being passed.**
