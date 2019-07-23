@@ -8,7 +8,7 @@ date: 2019-07-23T21:53:40.169Z
 tags:
   - ''
 ---
-The rise of Atomic Design is one of my favorite developments in modern websites. It's made design & development faster, and made the average CMS more usable for clients. Building sites as a series of discrete components makes everybody's lives *far* more enjoyable—personally I *love* watching sites come together exponentially faster as components are built out.
+The rise of Atomic Design is one of my favorite developments in modern websites. It's made design & development faster, and made the average CMS more usable for clients. Building sites as a series of discrete components makes everybody's lives _far_ more enjoyable—personally I _love_ watching sites come together exponentially faster as components are built out.
 
 However, I'd humbly submit that many implementations of Atomic Design have an issue. It's something that affects the speed of future maintenance, and it's not easily-fixed once you've started using the approach in your project. I'd argue it negatively affects the entire project as a whole.
 
@@ -18,44 +18,41 @@ That problem is this:
 
 ## The Core Issue
 
-One of the main benefits of components is the fact that you're able to reuse them across many different templates. Thanks to the [DRY principle]() means it takes less time to build the project.
+One of the main benefits of components is the fact that you're able to reuse them across many different templates. Thanks to the [DRY principle](<>) means it takes less time to build the project.
 
 You examine the design (or pair up with a designer) and divide the project into a variety of components. After taking a look, you start building out sliders, heroes, grids, the ever-present media/card component—you get the picture.
 
-As you're doing this, you also tie each component into the CMS in some fashion. For [Craft](), that means writing your components in Twig and creating a 'Page Builder' field, or something similar. You'll loop through the various matrix blocks/assets/entries and so forth, and output the various data your component needs to render properly.
+As you're doing this, you also tie each component into the CMS in some fashion. For [Craft](<>), that means writing your components in Twig and creating a 'Page Builder' field, or something similar. You'll loop through the various matrix blocks/assets/entries and so forth, and output the various data your component needs to render properly.
 
 **However.**
 
 As you get closer to the end of the project, you begin finding a problem when you try to reuse your fields:
 
-*your components *assume* things about the data they're rendering.*
-
+_your components_ assume _things about the data they're rendering._
 
 ## An Example
 
 Here's an example of a recent component I've seen in the wild:
 
 ```twig
-{% autoescape %}
 {# _components/hero.twig #}
 
 <div>
-    <span>{{ entry.title }}</span>
-    <p>{{ entry.textContent }}</p>
+  <span>{{ entry.title }}</span>
+  <p>{{ entry.textContent }}</p>
 
-    {% set cta = entry.cta.one %}
+  {% set cta = entry.cta.one %}
 
-    {% if cta %}
-        <a href="{{ cta.buttonUrl }}">
-            {{ cta.buttonText }}
-        </a>
-    {% endif %}
+  {% if cta %}
+    <a href="{{ cta.buttonUrl }}">
+      {{ cta.buttonText }}
+    </a>
+  {% endif %}
 </div>
 
 {# articles/index.twig #}
 
 {% include '_components/hero' with { entry: entry } %}
-{% endautoescape %}
 ```
 
 You've probably seen components written like this before, too. And there's no immediate issue with this approach—it'll render perfectly on the page while it's being written, and works beautifully with the CMS.
@@ -68,7 +65,7 @@ You create the new page in Craft and add content, and write the markup/CSS for t
 
 But wait, this new content you're adding doesn't have the `cta` or `textContent` fields. You want to use the `textSnippet` and `button` fields.
 
-Because your component *assumes* stuff about the data it's rendering, you can't use it. You'll have to update all the uses of the Hero component or make a new component to account for this new data structure.
+Because your component _assumes_ stuff about the data it's rendering, you can't use it. You'll have to update all the uses of the Hero component or make a new component to account for this new data structure.
 
 As a result, components usually bloat in both number and complexity towards the end of most projects.
 
@@ -81,14 +78,14 @@ I'd humbly submit that there's a slightly better approach to how your write comp
 {# _components/hero.twig #}
 
 <div>
-    <span>{{ title }}</span>
-    <p>{{ text }}</p>
+  <span>{{ title }}</span>
+  <p>{{ text }}</p>
 
-    {% if buttonUrl %}
-        <a href="{{ buttonUrl }}">
-            {{ buttonText }}
-        </a>
-    {% endif %}
+  {% if buttonUrl %}
+    <a href="{{ buttonUrl }}">
+      {{ buttonText }}
+    </a>
+  {% endif %}
 </div>
 
 {# articles/index.twig #}
@@ -98,10 +95,10 @@ I'd humbly submit that there's a slightly better approach to how your write comp
 
 {# Render a single Hero component with the provided data #}
 {{ createComponent.hero({
-    title: block.heading,
-    text: block.textContent,
-    buttonText: block.cta.one.buttonText ?? null,
-    buttonUrl: block.cta.one.buttonUrl ?? null
+  title: block.heading,
+  text: block.textContent,
+  buttonText: block.cta.one.buttonText ?? null,
+  buttonUrl: block.cta.one.buttonUrl ?? null
 }) }}
 {% endautoescape %}
 ```
@@ -110,7 +107,7 @@ It's a subtle difference, but an important one. See how the new version doesn't 
 
 Yes, there are more variables being passed. Of course, it still requires the same two files. Yep, it will make your 'Page Builder' field a bit more verbose to write.
 
-However, it makes your components *truly* reusable, wherever you need them. They're now *explcitly* frontend concepts, instead of attempting to bridge the gap between the CMS fields and the component's data.
+However, it makes your components _truly_ reusable, wherever you need them. They're now _explcitly_ frontend concepts, instead of attempting to bridge the gap between the CMS fields and the component's data.
 
 That's essentially the "secret" behind truly bulletproof, reusable components:
 
