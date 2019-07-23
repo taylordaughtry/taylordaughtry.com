@@ -36,6 +36,7 @@ As you get closer to the end of the project, you begin finding a problem when yo
 Here's an example of a recent component I've seen in the wild:
 
 ```twig
+{% verbatim %}
 {# _components/hero.twig #}
 
 <div>
@@ -54,6 +55,7 @@ Here's an example of a recent component I've seen in the wild:
 {# articles/index.twig #}
 
 {% include '_components/hero' with { entry: entry } %}
+{% endverbatim %}
 ```
 
 You've probably seen components written like this before, too. And there's no immediate issue with this approach—it'll render perfectly on the page while it's being written, and works beautifully with the CMS.
@@ -75,6 +77,7 @@ As a result, components usually bloat in both number and complexity towards the 
 I'd humbly submit that there's a slightly better approach to how your write components in Craft. Instead of relying on certain fields/data structures to be present in your content, write your components in the thinnest, bare fashion you can. Here's an example of the Hero component from earlier rewritten:
 
 ```twig
+{% verbatim %}
 {# _components/hero.twig #}
 
 <div>
@@ -100,6 +103,7 @@ I'd humbly submit that there's a slightly better approach to how your write comp
     buttonText: block.cta.one.buttonText ?? null,
     buttonUrl: block.cta.one.buttonUrl ?? null
 }) }}
+{% endverbatim %}
 ```
 
 It's a subtle difference, but an important one. See how the new version doesn't assume we have a `cta` field, `textContent` field, or&hellip; really anything at all. We're just rendering the actual data being passed, and that's it.
