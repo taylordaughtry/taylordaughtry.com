@@ -52,7 +52,7 @@ Here's an example of a recent component I've seen in the wild:
 
 {# articles/index.twig #}
 
-{% include '_components/hero' with { entry: entry } %}
+{\% include '_components/hero' with { entry: entry } \%}
 ```
 
 You've probably seen components written like this before, too. And there's no immediate issue with this approach—it'll render perfectly on the page while it's being written, and works beautifully with the CMS.
