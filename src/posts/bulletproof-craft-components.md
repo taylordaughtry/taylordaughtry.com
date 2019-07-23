@@ -38,16 +38,16 @@ Here's an example of a recent component I've seen in the wild:
 {# _components/hero.twig #}
 
 <div>
-  <span>{{ entry.title }}</span>
-  <p>{{ entry.textContent }}</p>
+<span>{{ entry.title }}</span>
+<p>{{ entry.textContent }}</p>
 
-  {% set cta = entry.cta.one %}
+{% set cta = entry.cta.one %}
 
-  {% if cta %}
-    <a href="{{ cta.buttonUrl }}">
-      {{ cta.buttonText }}
-    </a>
-  {% endif %}
+    {% if cta %}
+        <a href="{{ cta.buttonUrl }}">
+            {{ cta.buttonText }}
+        </a>
+    {% endif %}
 </div>
 
 {# articles/index.twig #}
@@ -78,14 +78,14 @@ I'd humbly submit that there's a slightly better approach to how your write comp
 {# _components/hero.twig #}
 
 <div>
-  <span>{{ title }}</span>
-  <p>{{ text }}</p>
+    <span>{{ title }}</span>
+    <p>{{ text }}</p>
 
-  {% if buttonUrl %}
-    <a href="{{ buttonUrl }}">
-      {{ buttonText }}
-    </a>
-  {% endif %}
+    {% if buttonUrl %}
+        <a href="{{ buttonUrl }}">
+            {{ buttonText }}
+        </a>
+    {% endif %}
 </div>
 
 {# articles/index.twig #}
@@ -95,10 +95,10 @@ I'd humbly submit that there's a slightly better approach to how your write comp
 
 {# Render a single Hero component with the provided data #}
 {{ createComponent.hero({
-  title: block.heading,
-  text: block.textContent,
-  buttonText: block.cta.one.buttonText ?? null,
-  buttonUrl: block.cta.one.buttonUrl ?? null
+    title: block.heading,
+    text: block.textContent,
+    buttonText: block.cta.one.buttonText ?? null,
+    buttonUrl: block.cta.one.buttonUrl ?? null
 }) }}
 {% endautoescape %}
 ```
