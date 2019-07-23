@@ -6,11 +6,7 @@ metaDesc: >-
   complex Craft sites.
 date: 2019-07-23T21:53:40.169Z
 tags:
-  - twig
-  - components
-  - markup
-  - frontend
-  - architecture
+  - ''
 ---
 The rise of Atomic Design is one of my favorite developments in modern websites. It's made design & development faster, and made the average CMS more usable for clients. Building sites as a series of discrete components makes everybody's lives *far* more enjoyable—personally I *love* watching sites come together exponentially faster as components are built out.
 
