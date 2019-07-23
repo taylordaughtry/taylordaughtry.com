@@ -41,13 +41,13 @@ Here's an example of a recent component I've seen in the wild:
 <span>{{ entry.title }}</span>
 <p>{{ entry.textContent }}</p>
 
-{% set cta = entry.cta.one %}
+{\% set cta = entry.cta.one \%}
 
-    {% if cta %}
+    {\% if cta \%}
         <a href="{{ cta.buttonUrl }}">
             {{ cta.buttonText }}
         </a>
-    {% endif %}
+    {\% endif \%}
 </div>
 
 {# articles/index.twig #}
@@ -74,24 +74,23 @@ As a result, components usually bloat in both number and complexity towards the 
 I'd humbly submit that there's a slightly better approach to how your write components in Craft. Instead of relying on certain fields/data structures to be present in your content, write your components in the thinnest, bare fashion you can. Here's an example of the Hero component from earlier rewritten:
 
 ```twig
-{% autoescape %}
 {# _components/hero.twig #}
 
 <div>
     <span>{{ title }}</span>
     <p>{{ text }}</p>
 
-    {% if buttonUrl %}
+    {\% if buttonUrl \%}
         <a href="{{ buttonUrl }}">
             {{ buttonText }}
         </a>
-    {% endif %}
+    {\% endif \%}
 </div>
 
 {# articles/index.twig #}
 
 {# Import all components under a single Macro #}
-{% import '_components/macros' as createComponent %}
+{\% import '_components/macros' as createComponent \%}
 
 {# Render a single Hero component with the provided data #}
 {{ createComponent.hero({
@@ -100,7 +99,6 @@ I'd humbly submit that there's a slightly better approach to how your write comp
     buttonText: block.cta.one.buttonText ?? null,
     buttonUrl: block.cta.one.buttonUrl ?? null
 }) }}
-{% endautoescape %}
 ```
 
 It's a subtle difference, but an important one. See how the new version doesn't assume we have a `cta` field, `textContent` field, or&hellip; really anything at all. We're just rendering the actual data being passed, and that's it.
