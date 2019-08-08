@@ -5,8 +5,6 @@ date: 2019-08-08T05:42:42.999Z
 tags:
   - leadership
 ---
-# The Everyday Tech Lead: Communication Matters
-
 I've been working as a Tech Lead in one capacity or another for the last 4 years. 
 
 The time I've spent advancing from the 'asks good questions' dev, to the 'has the answers' dev, and now what most would define as Senior or Tech Lead has taken longer than those 4 years—it's actually taken my entire career as a developer. (Full disclosure: I still have so much more to learn.)
